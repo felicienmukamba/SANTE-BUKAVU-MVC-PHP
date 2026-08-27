@@ -25,12 +25,9 @@ php -S localhost:8000 -t public
 
 4. Ouvrir http://localhost:8000.
 
-Comptes de test créés :
+Compte de démonstration principal :
 
-- Admin: `admin@sante.cd` / `admin123`
-- Médecin: `medecin@sante.cd` / `medecin123`
-- Patient: `patient@sante.cd` / `patient123`
-
-Vous pouvez maintenant vous connecter à l'application avec ces comptes pour tester toutes les fonctionnalités.
+- Admin : `admin@sante.local` / `password`
+- Médecin : `amina@sante.local` / `password`
 
 Bootstrap et jQuery sont servis depuis `public/assets`, donc aucun gestionnaire de dépendances ni accès CDN n'est requis pour démarrer.

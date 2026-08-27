@@ -22,9 +22,9 @@ CREATE TABLE interactions_medicamenteuses (id INT AUTO_INCREMENT PRIMARY KEY, me
 
 INSERT INTO hopitaux (nom, adresse, telephone, email) VALUES ('Hôpital Central', '12 avenue de la Santé', '+221 33 000 00 00', 'contact@hopital.local');
 INSERT INTO hopitaux (nom, adresse, telephone, email) VALUES ('Hôpital Général de Bukavu', 'Bukavu, Sud-Kivu', '+243 123 456 789', 'contact@hgb.cd');
-INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('admin-demo', 'Administrateur', 'admin@sante.local', 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llCw5nYj1E0gQn1xv4v7u', 0);
+INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('admin-demo', 'Administrateur', 'admin@sante.local', 'admin', '$2y$12$z8HRSuLP0XDpgMKW2j8iSORrfXHy0978Bp.F03wDlxVh/ysk1Ivmq', 0);
 INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('admin-seed', 'Administrateur', 'admin@sante.cd', 'admin', '$2y$12$q3ZRfg3tLNv9TphUY3IatOyNcv/RsjwfIRnrbPJH4wV/HoWi7tBoi', 0);
-INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('doctor-demo', 'Dr. Amina Diop', 'amina@sante.local', 'medecin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llCw5nYj1E0gQn1xv4v7u', 0);
+INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('doctor-demo', 'Dr. Amina Diop', 'amina@sante.local', 'medecin', '$2y$12$z8HRSuLP0XDpgMKW2j8iSORrfXHy0978Bp.F03wDlxVh/ysk1Ivmq', 0);
 INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES ('medecin-seed', 'Dr. Kabila', 'medecin@sante.cd', 'medecin', '$2y$12$wQ39WdF0CJEoZI9TJJ.cOeAR4hgInOOdkaGtLU4DZ3XbUlZEXZx6W', 0);
 INSERT INTO medecins (userId, specialite, licence, hopitalId) VALUES ('doctor-demo', 'Médecine générale', 'MED-2026-001', 1);
 INSERT INTO medecins (userId, specialite, licence, hopitalId) VALUES ('medecin-seed', 'Médecine Générale', 'MED-2024-001', 2);
