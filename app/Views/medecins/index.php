@@ -7,7 +7,9 @@ require dirname(__DIR__) . '/layouts/header.php';
         <p class="eyebrow">ÉQUIPE MÉDICALE</p>
         <h1 class="h2 mb-0">Médecins</h1>
     </div>
-    <a class="btn btn-primary" href="<?= url('?page=medecin-create') ?>">+ Nouveau médecin</a>
+    <?php if (has_role('admin')): ?>
+        <a class="btn btn-primary" href="<?= url('?page=medecin-create') ?>">+ Nouveau médecin</a>
+    <?php endif; ?>
 </div>
 
 <div class="row g-3">
@@ -25,13 +27,15 @@ require dirname(__DIR__) . '/layouts/header.php';
                     <hr>
                     <p class="small text-muted mb-1">Licence : <?= e($medecin['licence']) ?></p>
                     <p class="small text-muted mb-3"><?= e($medecin['hopital']) ?> · <?= e($medecin['email']) ?></p>
-                    <div class="d-flex justify-content-end gap-2">
-                        <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=medecin-edit&id=' . e((string) $medecin['id'])) ?>">Modifier</a>
-                        <form action="<?= url('?page=delete&table=medecins&id=' . e((string) $medecin['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce médecin ?">
-                            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                        </form>
-                    </div>
+                    <?php if (has_role('admin')): ?>
+                        <div class="d-flex justify-content-end gap-2">
+                            <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=medecin-edit&id=' . e((string) $medecin['id'])) ?>">Modifier</a>
+                            <form action="<?= url('?page=delete&table=medecins&id=' . e((string) $medecin['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce médecin ?">
+                                <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                            </form>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

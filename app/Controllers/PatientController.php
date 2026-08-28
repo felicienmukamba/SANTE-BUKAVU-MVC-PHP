@@ -5,14 +5,14 @@ class PatientController
 {
     public function index(): void
     {
-        require_auth();
+        require_role(['admin', 'medecin']);
         $patients = db()->query('SELECT * FROM patients ORDER BY createdAt DESC')->fetchAll();
         require dirname(__DIR__) . '/Views/patients/index.php';
     }
 
     public function create(): void
     {
-        require_auth();
+        require_role(['admin', 'medecin']);
         $error = null;
         $patient = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,7 +37,7 @@ class PatientController
 
     public function edit(): void
     {
-        require_auth();
+        require_role(['admin', 'medecin']);
         $id = (int) ($_GET['id'] ?? 0);
         $stmt = db()->prepare('SELECT p.*, u.email FROM patients p JOIN users u ON u.id = p.userId WHERE p.id = ?');
         $stmt->execute([$id]);
@@ -83,13 +83,24 @@ class PatientController
     public function show(): void
     {
         require_auth();
-        $stmt = db()->prepare('SELECT * FROM patients WHERE id = ?');
-        $stmt->execute([(int) ($_GET['id'] ?? 0)]);
-        $patient = $stmt->fetch();
+        $id = (int) ($_GET['id'] ?? 0);
+
+        // If current user is a patient, only allow viewing their own record
+        if (has_role('patient')) {
+            $stmt = db()->prepare('SELECT * FROM patients WHERE userId = ?');
+            $stmt->execute([auth()['id']]);
+            $patient = $stmt->fetch();
+        } else {
+            $stmt = db()->prepare('SELECT * FROM patients WHERE id = ?');
+            $stmt->execute([$id]);
+            $patient = $stmt->fetch();
+        }
+
         if (!$patient) {
             http_response_code(404);
             exit('Patient introuvable');
         }
+
         $history = db()->prepare('SELECT c.*, u.name AS medecin FROM consultations c JOIN medecins m ON m.id=c.medecinId JOIN users u ON u.id=m.userId WHERE c.patientId=? ORDER BY c.dateConsultation DESC');
         $history->execute([$patient['id']]);
         $consultations = $history->fetchAll();

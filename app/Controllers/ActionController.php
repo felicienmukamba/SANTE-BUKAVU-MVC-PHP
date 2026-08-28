@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
+
 class ActionController
 {
     public function delete(): void
     {
-        require_auth();
+        require_role('admin');
         verify_csrf();
 
         $table = $_GET['table'] ?? '';

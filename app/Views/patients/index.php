@@ -7,7 +7,9 @@ require dirname(__DIR__) . '/layouts/header.php';
         <p class="eyebrow">DOSSIER PATIENT</p>
         <h1 class="h2">Patients</h1>
     </div>
-    <a class="btn btn-primary" href="<?= url('?page=patient-create') ?>">+ Nouveau patient</a>
+    <?php if (has_role(['admin', 'medecin'])): ?>
+        <a class="btn btn-primary" href="<?= url('?page=patient-create') ?>">+ Nouveau patient</a>
+    <?php endif; ?>
 </div>
 
 <div class="card border-0 shadow-sm">
@@ -35,11 +37,15 @@ require dirname(__DIR__) . '/layouts/header.php';
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-2">
                                     <a class="btn btn-sm btn-outline-primary" href="<?= url('?page=patient-view&id=' . e((string) $patient['id'])) ?>">Voir</a>
-                                    <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=patient-edit&id=' . e((string) $patient['id'])) ?>">Modifier</a>
-                                    <form action="<?= url('?page=delete&table=patients&id=' . e((string) $patient['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce patient ?">
-                                        <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                                    </form>
+                                    <?php if (has_role(['admin', 'medecin'])): ?>
+                                        <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=patient-edit&id=' . e((string) $patient['id'])) ?>">Modifier</a>
+                                    <?php endif; ?>
+                                    <?php if (has_role('admin')): ?>
+                                        <form action="<?= url('?page=delete&table=patients&id=' . e((string) $patient['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce patient ?">
+                                            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

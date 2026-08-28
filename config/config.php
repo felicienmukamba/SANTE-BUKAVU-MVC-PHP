@@ -46,3 +46,21 @@ function csrf_token(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] 
 function verify_csrf(): void { if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) { http_response_code(419); exit('Session expirée.'); } }
 function auth(): ?array { return $_SESSION['user'] ?? null; }
 function require_auth(): void { if (!auth()) redirect(url('?page=login')); }
+
+function has_role(string|array $roles): bool
+{
+    $user = auth();
+    if (!$user || empty($user['role'])) {
+        return false;
+    }
+    $roles = (array) $roles;
+    return in_array(strtolower((string)$user['role']), array_map('strtolower', $roles), true);
+}
+
+function require_role(string|array $roles): void
+{
+    require_auth();
+    if (!has_role($roles)) {
+        redirect(url('?page=dashboard'), 'Accès refusé : vous ne disposez pas des permissions nécessaires.', 'danger');
+    }
+}

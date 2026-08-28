@@ -29,9 +29,24 @@ $editRoutes = [
     'alerts' => 'alert-edit',
 ];
 
+$editRoles = [
+    'hospitals' => ['admin'],
+    'alerts' => ['admin'],
+    'consultations' => ['admin', 'medecin'],
+    'exams' => ['admin', 'medecin'],
+    'prescriptions' => ['admin', 'medecin'],
+    'medicaments' => ['admin', 'medecin', 'pharmacien'],
+    'deliveries' => ['admin', 'medecin', 'pharmacien'],
+    'interactions' => ['admin', 'medecin', 'pharmacien'],
+    'laboratories' => ['admin', 'medecin', 'laborantin'],
+    'appointments' => ['admin', 'medecin', 'patient'],
+];
+
 $table = $tables[$type] ?? $type;
 $editRoute = $editRoutes[$type] ?? null;
-$hasActions = ($type !== 'reports');
+$canEdit = has_role($editRoles[$type] ?? ['admin']);
+$canDelete = has_role('admin');
+$hasActions = ($type !== 'reports') && ($canEdit || $canDelete);
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
@@ -66,10 +81,10 @@ $hasActions = ($type !== 'reports');
                             <?php if ($hasActions): ?>
                                 <td class="text-end">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <?php if ($editRoute && !empty($row['id'])): ?>
+                                        <?php if ($canEdit && $editRoute && !empty($row['id'])): ?>
                                             <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=' . e($editRoute) . '&id=' . e((string)$row['id'])) ?>">Modifier</a>
                                         <?php endif; ?>
-                                        <?php if (!empty($row['id'])): ?>
+                                        <?php if ($canDelete && !empty($row['id'])): ?>
                                             <form action="<?= url('?page=delete&table=' . e($table) . '&id=' . e((string)$row['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer cet élément ?">
                                                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>

@@ -5,14 +5,14 @@ class MedecinController
 {
     public function index(): void
     {
-        require_auth();
+        require_role('admin');
         $medecins = db()->query('SELECT m.*, u.name, u.email, h.nom AS hopital FROM medecins m JOIN users u ON u.id=m.userId JOIN hopitaux h ON h.id=m.hopitalId ORDER BY u.name')->fetchAll();
         require dirname(__DIR__) . '/Views/medecins/index.php';
     }
 
     public function create(): void
     {
-        require_auth();
+        require_role('admin');
         $error = null;
         $medecin = null;
         $hospitals = db()->query('SELECT id, nom FROM hopitaux ORDER BY nom')->fetchAll();
@@ -46,7 +46,7 @@ class MedecinController
 
     public function edit(): void
     {
-        require_auth();
+        require_role('admin');
         $id = (int) ($_GET['id'] ?? 0);
         $stmt = db()->prepare('SELECT m.*, u.name, u.email FROM medecins m JOIN users u ON u.id = m.userId WHERE m.id = ?');
         $stmt->execute([$id]);

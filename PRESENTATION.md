@@ -28,7 +28,7 @@ Pour utiliser l'application sur votre environnement local, suivez ces étapes si
 
 ---
 
-## 🔑 3. Connexion au Portail Santé+
+## 🔑 3. Connexion & Gestion des Permissions par Rôle (RBAC)
 
 Pour vous connecter à l'application :
 
@@ -39,16 +39,37 @@ Pour vous connecter à l'application :
 * **Compte Administrateur :**
   * **Email :** `admin@sante.cd`
   * **Mot de passe :** `admin123`
+  * **Droits :** Accès total (Gestion des hôpitaux, médecins, patients, médicaments, suppressions, rapports statistiques).
 * **Compte Médecin :**
   * **Email :** `medecin@sante.cd`
   * **Mot de passe :** `medecin123`
-* **Compte patient :**
+  * **Droits :** Dossier patient, consultations, examens, prescriptions médicales, rendez-vous, alertes sanitaires.
+* **Compte Patient :**
   * **Email :** `patient@sante.cd`
   * **Mot de passe :** `patient123`
+  * **Droits :** Espace personnel (Consultation de son historique médical, ses ordonnances, prise et suivi de rendez-vous).
 
 ---
 
-## 📖 4. Guide Pédagogique Pas-à-Pas
+## 🛡️ 4. Matrice des Droits & Sécurité par Rôle
+
+| Fonctionnalité / Module | Administrateur (`admin`) | Médecin (`medecin`) | Patient (`patient`) |
+|---|:---:|:---:|:---:|
+| **Tableau de bord personnalisé** | Global | Médical | Espace Personnel |
+| **Gestion des Hôpitaux** | ✅ Créer / Modifier / Supprimer | 👁️ Lecture | ❌ |
+| **Gestion de l'Équipe Médicale** | ✅ Créer / Modifier / Supprimer | ❌ | ❌ |
+| **Dossier Patients** | ✅ Créer / Modifier / Supprimer | ✅ Créer / Modifier | 👁️ Son propre dossier |
+| **Consultations & Diagnostics** | ✅ Toutes | ✅ Créer / Modifier | 👁️ Ses consultations |
+| **Examens & Laboratoire** | ✅ Tous | ✅ Demander / Suivre | 👁️ Ses examens |
+| **Prescriptions & Ordonnances** | ✅ Toutes | ✅ Créer / Modifier | 👁️ Ses ordonnances |
+| **Pharmacie & Stock Médicaments** | ✅ Gestion complète | 👁️ Consultation | ❌ |
+| **Délivrances de Médicaments** | ✅ Effectuer / Modifier | ✅ Effectuer | ❌ |
+| **Rapports & Statistiques** | ✅ Visibles | ✅ Visibles | ❌ |
+| **Suppression d'éléments (`delete`)** | ✅ Autorisé | ❌ Bloqué | ❌ Bloqué |
+
+---
+
+## 📖 5. Guide Pédagogique Pas-à-Pas
 
 ### 🧑‍🤝‍🧑 A. Gestion des Patients
 
@@ -78,7 +99,7 @@ Pour vous connecter à l'application :
 
 ### 👨‍⚕️ B. Gestion de l'Équipe Médicale (Médecins)
 
-1. Cliquez sur le menu **Médecins**.
+1. Cliquez sur le menu **Médecins** (accessible par l'administrateur).
 2. Pour ajouter un médecin, cliquez sur **`+ Nouveau médecin`**.
 3. Renseignez :
    * Le **Nom complet** du médecin
@@ -139,10 +160,11 @@ Pour vous connecter à l'application :
 
 ---
 
-## 🛠️ 5. Architecture Technique & Bonnes Pratiques
+## 🛠️ 6. Architecture Technique & Bonnes Pratiques
 
 * **Modèle MVC :** Séparation claire entre la logique métier (`app/Controllers`), l'accès aux données (PDO MySQL) et l'interface utilisateur (`app/Views`).
-* **Sécurité renforcée :**
+* **Sécurité & Contrôle d'accès (RBAC) :**
+  * Contrôle d'accès par rôle via `has_role()` et `require_role()`.
   * Protection contre les failles **CSRF** sur tous les formulaires avec jetons de session.
   * Requêtes préparées systématiques contre les injections **SQL**.
   * Échappement HTML systématique (`e()`) contre les failles **XSS**.
