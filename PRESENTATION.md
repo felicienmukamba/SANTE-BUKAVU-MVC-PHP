@@ -37,14 +37,14 @@ Pour vous connecter à l'application :
 
 ### Identifiants de démonstration disponibles :
 * **Compte Administrateur :**
-  * **Email :** `admin@sante.local`
-  * **Mot de passe :** `password`
-* **Compte Médecin :**
-  * **Email :** `amina@sante.local`
-  * **Mot de passe :** `password`
-* **Compte Démo RDC :**
   * **Email :** `admin@sante.cd`
-  * **Mot de passe :** `password`
+  * **Mot de passe :** `admin123`
+* **Compte Médecin :**
+  * **Email :** `medecin@sante.cd`
+  * **Mot de passe :** `medecin123`
+* **Compte patient :**
+  * **Email :** `patient@sante.cd`
+  * **Mot de passe :** `patient123`
 
 ---
 
