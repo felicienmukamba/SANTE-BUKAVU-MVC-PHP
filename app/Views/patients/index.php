@@ -1,4 +1,6 @@
 <?php
+/** @var array $patients */
+$patients = $patients ?? [];
 $title = 'Patients | Santé+';
 require dirname(__DIR__) . '/layouts/header.php';
 ?>
@@ -29,19 +31,19 @@ require dirname(__DIR__) . '/layouts/header.php';
                 <tbody>
                     <?php foreach ($patients as $patient): ?>
                         <tr>
-                            <td class="fw-semibold"><?= e($patient['prenom'] . ' ' . $patient['nom']) ?></td>
-                            <td><?= e($patient['numero_national']) ?></td>
-                            <td><?= date('d/m/Y', strtotime($patient['date_naissance'])) ?></td>
-                            <td><?= e($patient['sexe']) ?></td>
-                            <td><?= e($patient['situation_matrimoniale']) ?></td>
+                            <td class="fw-semibold"><?= e(($patient['prenom'] ?? '') . ' ' . ($patient['nom'] ?? '')) ?></td>
+                            <td><?= e($patient['numero_national'] ?? '') ?></td>
+                            <td><?= !empty($patient['date_naissance']) ? date('d/m/Y', strtotime($patient['date_naissance'])) : '' ?></td>
+                            <td><?= e($patient['sexe'] ?? '') ?></td>
+                            <td><?= e($patient['situation_matrimoniale'] ?? '') ?></td>
                             <td class="text-end">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <a class="btn btn-sm btn-outline-primary" href="<?= url('?page=patient-view&id=' . e((string) $patient['id'])) ?>">Voir</a>
+                                    <a class="btn btn-sm btn-outline-primary" href="<?= url('?page=patient-view&id=' . e((string) ($patient['id'] ?? ''))) ?>">Voir</a>
                                     <?php if (has_role(['admin', 'medecin'])): ?>
-                                        <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=patient-edit&id=' . e((string) $patient['id'])) ?>">Modifier</a>
+                                        <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=patient-edit&id=' . e((string) ($patient['id'] ?? ''))) ?>">Modifier</a>
                                     <?php endif; ?>
                                     <?php if (has_role('admin')): ?>
-                                        <form action="<?= url('?page=delete&table=patients&id=' . e((string) $patient['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce patient ?">
+                                        <form action="<?= url('?page=delete&table=patients&id=' . e((string) ($patient['id'] ?? ''))) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce patient ?">
                                             <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
                                         </form>
@@ -50,7 +52,7 @@ require dirname(__DIR__) . '/layouts/header.php';
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                    <?php if (!$patients): ?>
+                    <?php if (empty($patients)): ?>
                         <tr>
                             <td colspan="6" class="text-center text-muted py-5">Aucun patient enregistré.</td>
                         </tr>

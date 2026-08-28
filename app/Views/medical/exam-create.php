@@ -1,4 +1,14 @@
 <?php
+
+/** @var array $form */
+/** @var array $options */
+/** @var string|null $error */
+/** @var array $data */
+$form = $form ?? [];
+$options = $options ?? $form['options'] ?? [];
+$data = $data ?? [];
+$error = $error ?? null;
+
 $isEdit = !empty($form['isEdit']) || !empty($form['data']['id']) || !empty($data['id']);
 $pageTitle = $isEdit ? 'Modifier l’examen' : 'Demander un examen';
 $title = $pageTitle . ' | Santé+';
@@ -21,9 +31,9 @@ require dirname(__DIR__) . '/layouts/header.php';
                     <label class="form-label">Consultation</label>
                     <select class="form-select" name="consultationId" required>
                         <option value="">Sélectionner une consultation</option>
-                        <?php foreach ($options['consultationId'] as $option): ?>
+                        <?php foreach (($options['consultationId'] ?? []) as $option): ?>
                             <option value="<?= e((string) $option['id']) ?>" <?= ((string)($formData['consultationId'] ?? '') === (string)$option['id']) ? 'selected' : '' ?>>
-                                <?= e($option['label']) ?>
+                                <?= e($option['label'] ?? '') ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -33,7 +43,7 @@ require dirname(__DIR__) . '/layouts/header.php';
                     <input class="form-control" name="typeExamen" value="<?= e($formData['typeExamen'] ?? '') ?>" required placeholder="Ex: Analyse sanguine, Radiographie, Échographie">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Prix CDF</label>
+                    <label class="form-label">Prix (CDF)</label>
                     <input class="form-control" type="number" name="prix" min="0" step="0.01" value="<?= e((string)($formData['prix'] ?? '')) ?>">
                 </div>
             </div>

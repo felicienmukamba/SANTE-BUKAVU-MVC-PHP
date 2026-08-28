@@ -1,4 +1,11 @@
 <?php
+/** @var array $hospitals */
+/** @var array|null $medecin */
+/** @var string|null $error */
+$hospitals = $hospitals ?? [];
+$medecin = $medecin ?? null;
+$error = $error ?? null;
+
 $isEdit = !empty($medecin['id']);
 $pageTitle = $isEdit ? 'Modifier le médecin' : 'Nouveau médecin';
 $title = $pageTitle . ' | Santé+';
@@ -42,7 +49,7 @@ require dirname(__DIR__) . '/layouts/header.php';
                         <option value="">Sélectionner un hôpital</option>
                         <?php foreach ($hospitals as $hospital): ?>
                             <option value="<?= e((string) $hospital['id']) ?>" <?= ((string)($medecin['hopitalId'] ?? '') === (string)$hospital['id']) ? 'selected' : '' ?>>
-                                <?= e($hospital['nom']) ?>
+                                <?= e($hospital['nom'] ?? '') ?>
                             </option>
                         <?php endforeach; ?>
                     </select>

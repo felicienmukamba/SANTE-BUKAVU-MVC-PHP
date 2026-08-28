@@ -1,4 +1,6 @@
 <?php
+/** @var array $medecins */
+$medecins = $medecins ?? [];
 $title = 'Médecins | Santé+';
 require dirname(__DIR__) . '/layouts/header.php';
 ?>
@@ -18,19 +20,19 @@ require dirname(__DIR__) . '/layouts/header.php';
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex gap-3 align-items-center">
-                        <div class="avatar"><?= e(strtoupper(substr($medecin['name'], 0, 1))) ?></div>
+                        <div class="avatar"><?= e(strtoupper(substr($medecin['name'] ?? 'M', 0, 1))) ?></div>
                         <div>
-                            <h2 class="h5 mb-1"><?= e($medecin['name']) ?></h2>
-                            <p class="text-primary mb-0"><?= e($medecin['specialite']) ?></p>
+                            <h2 class="h5 mb-1"><?= e($medecin['name'] ?? '') ?></h2>
+                            <p class="text-primary mb-0"><?= e($medecin['specialite'] ?? '') ?></p>
                         </div>
                     </div>
                     <hr>
-                    <p class="small text-muted mb-1">Licence : <?= e($medecin['licence']) ?></p>
-                    <p class="small text-muted mb-3"><?= e($medecin['hopital']) ?> · <?= e($medecin['email']) ?></p>
+                    <p class="small text-muted mb-1">Licence : <?= e($medecin['licence'] ?? '') ?></p>
+                    <p class="small text-muted mb-3"><?= e($medecin['hopital'] ?? '') ?> · <?= e($medecin['email'] ?? '') ?></p>
                     <?php if (has_role('admin')): ?>
                         <div class="d-flex justify-content-end gap-2">
-                            <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=medecin-edit&id=' . e((string) $medecin['id'])) ?>">Modifier</a>
-                            <form action="<?= url('?page=delete&table=medecins&id=' . e((string) $medecin['id'])) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce médecin ?">
+                            <a class="btn btn-sm btn-outline-secondary" href="<?= url('?page=medecin-edit&id=' . e((string) ($medecin['id'] ?? ''))) ?>">Modifier</a>
+                            <form action="<?= url('?page=delete&table=medecins&id=' . e((string) ($medecin['id'] ?? ''))) ?>" method="post" class="d-inline" data-confirm="Êtes-vous sûr de vouloir supprimer ce médecin ?">
                                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
                                 <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
                             </form>
@@ -40,7 +42,7 @@ require dirname(__DIR__) . '/layouts/header.php';
             </div>
         </div>
     <?php endforeach; ?>
-    <?php if (!$medecins): ?>
+    <?php if (empty($medecins)): ?>
         <div class="col-12">
             <div class="alert alert-light">Aucun médecin enregistré.</div>
         </div>

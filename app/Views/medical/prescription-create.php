@@ -1,4 +1,13 @@
 <?php
+/** @var array $form */
+/** @var array $options */
+/** @var string|null $error */
+/** @var array $data */
+$form = $form ?? [];
+$options = $options ?? $form['options'] ?? [];
+$data = $data ?? [];
+$error = $error ?? null;
+
 $isEdit = !empty($form['isEdit']) || !empty($form['data']['id']) || !empty($data['id']);
 $pageTitle = $isEdit ? 'Modifier la prescription' : 'Nouvelle prescription';
 $title = $pageTitle . ' | Santé+';
@@ -21,9 +30,9 @@ require dirname(__DIR__) . '/layouts/header.php';
                     <label class="form-label">Consultation</label>
                     <select class="form-select" name="consultationId" required>
                         <option value="">Sélectionner une consultation</option>
-                        <?php foreach ($options['consultationId'] as $option): ?>
+                        <?php foreach (($options['consultationId'] ?? []) as $option): ?>
                             <option value="<?= e((string) $option['id']) ?>" <?= ((string)($formData['consultationId'] ?? '') === (string)$option['id']) ? 'selected' : '' ?>>
-                                <?= e($option['label']) ?>
+                                <?= e($option['label'] ?? '') ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
