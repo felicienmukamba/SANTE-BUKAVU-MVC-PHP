@@ -7,7 +7,7 @@
       <p>Gestion médicale centralisée</p>
     </div>
     <div class="login-body">
-      <?php if ($error): ?>
+      <?php if (!empty($error)): ?>
         <div class="alert alert-danger"><?= e($error) ?></div>
       <?php endif; ?>
       <form method="post">

@@ -1,11 +1,17 @@
-<?php $title = 'Nouvelle prescription | Santé+'; require dirname(__DIR__) . '/layouts/header.php'; ?>
+<?php
+$isEdit = !empty($form['isEdit']) || !empty($form['data']['id']) || !empty($data['id']);
+$pageTitle = $isEdit ? 'Modifier la prescription' : 'Nouvelle prescription';
+$title = $pageTitle . ' | Santé+';
+$formData = $form['data'] ?? $data ?? [];
+require dirname(__DIR__) . '/layouts/header.php';
+?>
 <div class="mb-4">
     <a href="<?= url('?page=prescriptions') ?>" class="text-decoration-none">&larr; Retour aux prescriptions</a>
-    <h1 class="h2 mt-3">Nouvelle prescription</h1>
+    <h1 class="h2 mt-3"><?= e($pageTitle) ?></h1>
 </div>
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
-        <?php if ($error): ?>
+        <?php if (!empty($error)): ?>
             <div class="alert alert-danger"><?= e($error) ?></div>
         <?php endif; ?>
         <form method="post">
@@ -16,29 +22,31 @@
                     <select class="form-select" name="consultationId" required>
                         <option value="">Sélectionner une consultation</option>
                         <?php foreach ($options['consultationId'] as $option): ?>
-                            <option value="<?= e((string) $option['id']) ?>"><?= e($option['label']) ?></option>
+                            <option value="<?= e((string) $option['id']) ?>" <?= ((string)($formData['consultationId'] ?? '') === (string)$option['id']) ? 'selected' : '' ?>>
+                                <?= e($option['label']) ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Posologie</label>
-                    <textarea class="form-control" name="posologie" rows="3" required placeholder="Ex: 1 comprimé matin et soir"></textarea>
+                    <textarea class="form-control" name="posologie" rows="3" required placeholder="Ex: 1 comprimé matin et soir"><?= e($formData['posologie'] ?? '') ?></textarea>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Durée du traitement</label>
-                    <input class="form-control" name="dureeTraitement" required placeholder="Ex: 7 jours">
+                    <input class="form-control" name="dureeTraitement" value="<?= e($formData['dureeTraitement'] ?? '') ?>" required placeholder="Ex: 7 jours">
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Quantité</label>
-                    <input class="form-control" name="quantite" required placeholder="Ex: 14 comprimés">
+                    <input class="form-control" name="quantite" value="<?= e($formData['quantite'] ?? '') ?>" required placeholder="Ex: 14 comprimés">
                 </div>
                 <div class="col-12">
                     <label class="form-label">Instructions</label>
-                    <textarea class="form-control" name="instruction" rows="2" placeholder="Instructions supplémentaires pour le patient"></textarea>
+                    <textarea class="form-control" name="instruction" rows="2" placeholder="Instructions supplémentaires pour le patient"><?= e($formData['instruction'] ?? '') ?></textarea>
                 </div>
             </div>
             <div class="mt-4">
-                <button class="btn btn-primary">Enregistrer la prescription</button>
+                <button class="btn btn-primary"><?= $isEdit ? 'Mettre à jour la prescription' : 'Enregistrer la prescription' ?></button>
             </div>
         </form>
     </div>

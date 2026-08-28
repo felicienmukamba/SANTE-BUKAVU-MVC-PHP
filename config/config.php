@@ -36,7 +36,12 @@ define('BASE_URL', '/' . trim(env('APP_BASE', 'sante'), '/') . '/');
 function asset(string $path): string { return BASE_URL . 'public/assets/' . ltrim($path, '/'); }
 function url(string $path = ''): string { return BASE_URL . ltrim($path, '/'); }
 function e(?string $value): string { return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8'); }
-function redirect(string $path): never { header('Location: ' . $path); exit; }
+function flash(string $type, string $message): void { $_SESSION['flash'] = ['type' => $type, 'message' => $message]; }
+function redirect(string $path, ?string $flashMessage = null, string $flashType = 'success'): never { 
+    if ($flashMessage) flash($flashType, $flashMessage);
+    header('Location: ' . $path); 
+    exit; 
+}
 function csrf_token(): string { if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32)); return $_SESSION['csrf']; }
 function verify_csrf(): void { if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) { http_response_code(419); exit('Session expirée.'); } }
 function auth(): ?array { return $_SESSION['user'] ?? null; }

@@ -1,11 +1,16 @@
-<?php $title = 'Nouvel hôpital | Santé+'; require dirname(__DIR__) . '/layouts/header.php'; ?>
+<?php
+$isEdit = !empty($hospital['id']);
+$pageTitle = $isEdit ? 'Modifier l’établissement' : 'Nouvel hôpital';
+$title = $pageTitle . ' | Santé+';
+require dirname(__DIR__) . '/layouts/header.php';
+?>
 <div class="mb-4">
     <a href="<?= url('?page=hospitals') ?>" class="text-decoration-none">&larr; Retour aux hôpitaux</a>
-    <h1 class="h2 mt-3">Nouvel hôpital</h1>
+    <h1 class="h2 mt-3"><?= e($pageTitle) ?></h1>
 </div>
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
-        <?php if ($error): ?>
+        <?php if (!empty($error)): ?>
             <div class="alert alert-danger"><?= e($error) ?></div>
         <?php endif; ?>
         <form method="post">
@@ -13,43 +18,43 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Nom de l'établissement</label>
-                    <input class="form-control" name="nom" required>
+                    <input class="form-control" name="nom" value="<?= e($hospital['nom'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Téléphone</label>
-                    <input class="form-control" name="telephone" required>
+                    <input class="form-control" name="telephone" value="<?= e($hospital['telephone'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Email</label>
-                    <input class="form-control" type="email" name="email" required>
+                    <input class="form-control" type="email" name="email" value="<?= e($hospital['email'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Adresse</label>
-                    <input class="form-control" name="adresse" required>
+                    <input class="form-control" name="adresse" value="<?= e($hospital['adresse'] ?? '') ?>" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Nombre de lits</label>
-                    <input class="form-control" type="number" name="lits" min="0" required>
+                    <input class="form-control" type="number" name="lits" min="0" value="<?= e((string)($hospital['lits'] ?? 0)) ?>" required>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Lits occupés</label>
-                    <input class="form-control" type="number" name="litsOccupes" min="0" required>
+                    <input class="form-control" type="number" name="litsOccupes" min="0" value="<?= e((string)($hospital['litsOccupes'] ?? 0)) ?>" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Services (séparés par des virgules)</label>
-                    <input class="form-control" name="services" placeholder="Urgences, Chirurgie, Pédiatrie">
+                    <input class="form-control" name="services" value="<?= e($hospital['services'] ?? '') ?>" placeholder="Urgences, Chirurgie, Pédiatrie">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Latitude</label>
-                    <input class="form-control" type="number" step="any" name="latitude">
+                    <input class="form-control" type="number" step="any" name="latitude" value="<?= e((string)($hospital['latitude'] ?? '')) ?>">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Longitude</label>
-                    <input class="form-control" type="number" step="any" name="longitude">
+                    <input class="form-control" type="number" step="any" name="longitude" value="<?= e((string)($hospital['longitude'] ?? '')) ?>">
                 </div>
             </div>
             <div class="mt-4">
-                <button class="btn btn-primary">Enregistrer l'hôpital</button>
+                <button class="btn btn-primary"><?= $isEdit ? 'Mettre à jour l’hôpital' : 'Enregistrer l’hôpital' ?></button>
             </div>
         </form>
     </div>

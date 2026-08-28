@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ═══ Toasts ═══ */
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+  toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl).show();
+  });
+
   /* ═══ Sidebar ═══ */
   var sidebar   = document.getElementById('sidebar');
   var backdrop  = document.getElementById('sidebarBackdrop');
