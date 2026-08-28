@@ -21,7 +21,7 @@ class MedecinController
                 db()->prepare("INSERT INTO users (id, name, email, role, password, mustChangePassword) VALUES (?, ?, ?, 'medecin', ?, 1)")->execute([$userId, trim($_POST['name']), trim($_POST['email']), password_hash($_POST['password'], PASSWORD_DEFAULT)]);
                 db()->prepare('INSERT INTO medecins (userId, specialite, licence, hopitalId) VALUES (?, ?, ?, ?)')->execute([$userId, trim($_POST['specialite']), trim($_POST['licence']), (int) $_POST['hopitalId']]);
                 db()->commit();
-                redirect('/?page=medecins');
+                redirect(url('?page=medecins'));
             } catch (Throwable $exception) {
                 if (db()->inTransaction()) db()->rollBack();
                 $error = 'Email, licence ou hôpital déjà utilisé.';

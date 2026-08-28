@@ -1,6 +1,6 @@
 <?php $title = 'Nouvelle prescription | Santé+'; require dirname(__DIR__) . '/layouts/header.php'; ?>
 <div class="mb-4">
-    <a href="/?page=prescriptions" class="text-decoration-none">&larr; Retour aux prescriptions</a>
+    <a href="<?= url('?page=prescriptions') ?>" class="text-decoration-none">&larr; Retour aux prescriptions</a>
     <h1 class="h2 mt-3">Nouvelle prescription</h1>
 </div>
 <div class="card border-0 shadow-sm">

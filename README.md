@@ -27,7 +27,8 @@ php -S localhost:8000 -t public
 
 Compte de démonstration principal :
 
-- Admin : `admin@sante.local` / `password`
-- Médecin : `amina@sante.local` / `password`
+- Admin : `admin@sante.cd` / `admin123`
+- Médecin : `medecin@sante.cd` / `medecin123`
+- Patient : `patient@sante.cd` / `patient123`
 
 Bootstrap et jQuery sont servis depuis `public/assets`, donc aucun gestionnaire de dépendances ni accès CDN n'est requis pour démarrer.

@@ -3,7 +3,7 @@ class AuthController
 {
     public function login(): void
     {
-        if (auth()) redirect('/?page=dashboard');
+        if (auth()) redirect(url('?page=dashboard'));
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             verify_csrf();
@@ -13,12 +13,12 @@ class AuthController
             if ($user && password_verify($_POST['password'] ?? '', $user['password'] ?? '')) {
                 session_regenerate_id(true);
                 $_SESSION['user'] = ['id' => $user['id'], 'name' => $user['name'], 'role' => $user['role']];
-                redirect('/?page=dashboard');
+                redirect(url('?page=dashboard'));
             }
             $error = 'Email ou mot de passe incorrect.';
         }
         require dirname(__DIR__) . '/Views/auth/login.php';
     }
 
-    public function logout(): void { session_destroy(); redirect('/?page=login'); }
+    public function logout(): void { session_destroy(); redirect(url('?page=login')); }
 }

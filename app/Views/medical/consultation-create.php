@@ -1,6 +1,6 @@
 <?php $title = 'Nouvelle consultation | Santé+'; require dirname(__DIR__) . '/layouts/header.php'; ?>
 <div class="mb-4">
-    <a href="/?page=consultations" class="text-decoration-none">&larr; Retour aux consultations</a>
+    <a href="<?= url('?page=consultations') ?>" class="text-decoration-none">&larr; Retour aux consultations</a>
     <h1 class="h2 mt-3">Nouvelle consultation</h1>
 </div>
 <div class="card border-0 shadow-sm">

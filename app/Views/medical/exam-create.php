@@ -1,6 +1,6 @@
 <?php $title = 'Demander un examen | Santé+'; require dirname(__DIR__) . '/layouts/header.php'; ?>
 <div class="mb-4">
-    <a href="/?page=exams" class="text-decoration-none">&larr; Retour aux examens</a>
+    <a href="<?= url('?page=exams') ?>" class="text-decoration-none">&larr; Retour aux examens</a>
     <h1 class="h2 mt-3">Demander un examen</h1>
 </div>
 <div class="card border-0 shadow-sm">
